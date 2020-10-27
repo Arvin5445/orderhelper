@@ -52,7 +52,7 @@ public class Orderhelper implements Comparator {
         if (comparable1 == MIN_VALUE || comparable2 == MAX_VALUE) {
             return -1;
         }
-        if (comparable1 == maxOneValue || comparable2 == MIN_VALUE) {
+        if (comparable1 == MAX_VALUE || comparable2 == MIN_VALUE) {
             return 1;
         }
         return comparable1.compareTo(comparable2);
