@@ -33,7 +33,7 @@ public class Orderhelper implements Comparator {
 
     // 字段映射器
     private Function<Object, Comparable> mapper;
-    //TODO 映射出错时判断
+    //映射出错时判断 0最小，1最大
     private int mapErrorMode;
 
     public Orderhelper(String orderParamName, Class elementClass) {
@@ -60,9 +60,10 @@ public class Orderhelper implements Comparator {
 
     /**
      * 获取元素的字段值（用于比较）
+     * 并进行映射转换、极值处理
      *
      * @param entity 元素
-     * @return 元素的字段值
+     * @return 用于比较的字段值
      */
     public Comparable getFieldValue(Object entity) {
         Object fieldValue = null;
@@ -83,7 +84,11 @@ public class Orderhelper implements Comparator {
         if (mapper == null) {
             return (Comparable) fieldValue;
         }
-        return mapper.apply(fieldValue);
+        try {
+            return mapper.apply(fieldValue);
+        } catch (Exception e) {
+            return mapErrorMode == 0 ? MIN_VALUE : MAX_VALUE;
+        }
 
     }
 
@@ -120,5 +125,13 @@ public class Orderhelper implements Comparator {
 
     public void setMinOneValue(Set<Object> minOneValue) {
         this.minOneValue = minOneValue;
+    }
+
+    public int getMapErrorMode() {
+        return mapErrorMode;
+    }
+
+    public void setMapErrorMode(int mapErrorMode) {
+        this.mapErrorMode = mapErrorMode;
     }
 }

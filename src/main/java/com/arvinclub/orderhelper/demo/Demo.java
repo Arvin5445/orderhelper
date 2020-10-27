@@ -25,9 +25,9 @@ public class Demo {
             add(new Student(9999, "施航程", 56, "99.99%"));
             add(new Student(0, "施航程", 545, "77.77%"));
             add(new Student(0, "施航程", 545, "MAX"));
-            add(new Student(75, "施航程", 9999, "56%"));
+            add(new Student(75, "施航程", 9999, "5/6%"));
             add(new Student(75, "施航程", 9999, "-56%"));
-            add(new Student(9527, "施航程", 0, "9999%"));
+            add(new Student(9527, "施航程", 0, "999*9%"));
             add(new Student(4396, "施航程", 545, "100%"));
             add(new Student(8, "施航程", 42, "0%"));
             add(new Student(7, "施航程", 16, "43.85%"));
