@@ -7,9 +7,7 @@
  */
 package com.arvinclub.orderhelper.demo;
 
-import com.arvinclub.orderhelper.OrderBase;
-
-public class Student extends OrderBase {
+public class Student {
     private int id;
     private String name;
     private int age;
@@ -18,21 +16,23 @@ public class Student extends OrderBase {
         this.name = name;
         this.age = age;
     }
+
     public Student(int id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
     }
 
-    public Student() { }
+    public Student() {
+    }
 
     @Override
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name + "'" +
                 ", age=" + age +
-                '}';
+                "}\n";
     }
 
     public String getName() {
