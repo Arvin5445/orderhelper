@@ -39,7 +39,7 @@ public class OrderUtils {
         OrderConfig orderConfig = new OrderConfig();
         orderConfig.setList(list);
         orderConfig.setFieldName(fieldName);
-        orderConfig.setOrderMode(true);
+        orderConfig.setOrderMode(OrderConfig.DESC_MODE);
         order(orderConfig);
     }
 
@@ -82,7 +82,7 @@ public class OrderUtils {
         orderConfig.setList(list);
         orderConfig.setFieldName(fieldName);
         orderConfig.setMapper(mapper);
-        orderConfig.setOrderMode(true);
+        orderConfig.setOrderMode(OrderConfig.DESC_MODE);
         order(orderConfig);
     }
 
