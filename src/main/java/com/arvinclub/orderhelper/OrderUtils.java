@@ -65,12 +65,6 @@ public class OrderUtils {
             return;
         }
         Orderhelper orderhelper = new Orderhelper(param, list.get(0).getClass());
-        Set<Object> mins = new HashSet<>();
-        Set<Object> maxs = new HashSet<>();
-        mins.add("--");
-        maxs.add("MAX");
-        orderhelper.setMaxOneValue(maxs);
-        orderhelper.setMinOneValue(mins);
         orderhelper.setMapper(mapper);
         list.sort(orderhelper.reversed());
     }
