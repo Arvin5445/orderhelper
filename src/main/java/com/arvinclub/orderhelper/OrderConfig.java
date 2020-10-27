@@ -26,7 +26,7 @@ public class OrderConfig {
 
     // 字段映射器
     private Function<Object, Comparable> mapper;
-    //映射出错时判断 0最小，1最大
+    //映射出错时判断 0抛出异常，1最小，2最大
     private int mapErrorMode;
 
     public List getList() {

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * 排序工具类
+ * 花式排序工具类
  */
 public class OrderUtils {
 
@@ -26,7 +26,7 @@ public class OrderUtils {
         OrderConfig orderConfig = new OrderConfig();
         orderConfig.setList(list);
         orderConfig.setFieldName(fieldName);
-        orderExcute(orderConfig);
+        order(orderConfig);
     }
 
     /**
@@ -40,7 +40,19 @@ public class OrderUtils {
         orderConfig.setList(list);
         orderConfig.setFieldName(fieldName);
         orderConfig.setOrderMode(1);
-        orderExcute(orderConfig);
+        order(orderConfig);
+    }
+
+    public static void order(OrderConfig orderConfig) {
+        List list = orderConfig.getList();
+        if (list == null || list.size() < 2) {
+            return;
+        }
+        Comparator orderhelper = new OrderHelper(orderConfig);
+        if (orderConfig.getOrderMode() == 1) {
+            orderhelper = orderhelper.reversed();
+        }
+        list.sort(orderhelper);
     }
 
     /**
@@ -55,7 +67,7 @@ public class OrderUtils {
         orderConfig.setList(list);
         orderConfig.setFieldName(fieldName);
         orderConfig.setMapper(mapper);
-        orderExcute(orderConfig);
+        order(orderConfig);
     }
 
     /**
@@ -71,19 +83,8 @@ public class OrderUtils {
         orderConfig.setFieldName(fieldName);
         orderConfig.setMapper(mapper);
         orderConfig.setOrderMode(1);
-        orderExcute(orderConfig);
+        order(orderConfig);
     }
 
-    public static void orderExcute(OrderConfig orderConfig) {
-        List list = orderConfig.getList();
-        if (list == null || list.size() < 2) {
-            return;
-        }
-        Comparator orderhelper = new OrderHelper(orderConfig);
-        if (orderConfig.getOrderMode() == 1) {
-            orderhelper = orderhelper.reversed();
-        }
-        list.sort(orderhelper);
-    }
 
 }

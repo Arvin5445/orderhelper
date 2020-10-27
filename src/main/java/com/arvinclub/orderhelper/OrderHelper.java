@@ -7,26 +7,24 @@
  */
 package com.arvinclub.orderhelper;
 
-
 import java.lang.reflect.Method;
 import java.util.Comparator;
-
 
 /**
  * 辅助比较器
  */
 public class OrderHelper implements Comparator {
 
-    private OrderConfig orderConfig;
+    // 最大值
     private static final Comparable MAX_VALUE = o -> 1;
+    // 最小值
     private static final Comparable MIN_VALUE = o -> -1;
+    // 配置信息
+    private final OrderConfig orderConfig;
     // 元素类型
     private Class entityClass;
     // 获取字段的 Get 方法
     private Method fieldMethod;
-
-    public OrderHelper() {
-    }
 
     public OrderHelper(OrderConfig orderConfig) {
         this.orderConfig = orderConfig;
@@ -40,6 +38,7 @@ public class OrderHelper implements Comparator {
     public int compare(Object entity1, Object entity2) {
         Comparable comparable1 = getFieldValue(entity1);
         Comparable comparable2 = getFieldValue(entity2);
+        // 极值判断
         if (comparable1 == MIN_VALUE || comparable2 == MAX_VALUE) {
             return -1;
         }
@@ -62,7 +61,7 @@ public class OrderHelper implements Comparator {
             // 反射获取元素的字段值
             fieldValue = fieldMethod.invoke(entity);
         } catch (Exception e) {
-            throw new RuntimeException("获取类型: " + entityClass + " 中的字段: " + orderConfig.getFieldName() + " 失败");
+            throw new OrderException("获取类型: " + entityClass + " 中的字段: " + orderConfig.getFieldName() + " 失败");
         }
         // 特殊值判断：如果符合最大值或最小值，直接返回
         if (orderConfig.getMaxOneValue() != null && orderConfig.getMaxOneValue().contains(fieldValue)) {
@@ -78,15 +77,22 @@ public class OrderHelper implements Comparator {
         try {
             return orderConfig.getMapper().apply(fieldValue);
         } catch (Exception e) {
-            return orderConfig.getMapErrorMode() == 0 ? MIN_VALUE : MAX_VALUE;
+            if (orderConfig.getMapErrorMode() == 1) {
+                return MIN_VALUE;
+            }
+            if (orderConfig.getMapErrorMode() == 2) {
+                return MAX_VALUE;
+            }
+            throw new OrderException("字段值: " + fieldValue + " 在映射转换时抛出异常: " + e);
         }
 
     }
 
     /**
-     * 排序前的检查，保证 fieldMethod 得到更新
+     * 排序前的检查
      */
     private void preCheck() {
+        entityClass = orderConfig.getList().get(0).getClass();
         try {
             fieldMethod = entityClass.getMethod("get" + orderConfig.getFieldName().substring(0, 1).toUpperCase() + orderConfig.getFieldName().substring(1));
         } catch (Exception e) {
@@ -94,11 +100,4 @@ public class OrderHelper implements Comparator {
         }
     }
 
-    public OrderConfig getOrderConfig() {
-        return orderConfig;
-    }
-
-    public void setOrderConfig(OrderConfig orderConfig) {
-        this.orderConfig = orderConfig;
-    }
 }

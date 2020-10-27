@@ -8,10 +8,12 @@
 package com.arvinclub.orderhelper.demo;
 
 
+import com.arvinclub.orderhelper.OrderConfig;
 import com.arvinclub.orderhelper.OrderUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Demo {
@@ -25,14 +27,28 @@ public class Demo {
             add(new Student(9999, "施航程", 56, "99.99%"));
             add(new Student(0, "施航程", 545, "77.77%"));
             add(new Student(0, "施航程", 545, "MAX"));
-            add(new Student(75, "施航程", 9999, "5/6%"));
+            add(new Student(75, "施航程", 9999, "57%"));
             add(new Student(75, "施航程", 9999, "-56%"));
-            add(new Student(9527, "施航程", 0, "999*9%"));
+            add(new Student(9527, "施航程", 0, "9999%"));
             add(new Student(4396, "施航程", 545, "100%"));
             add(new Student(8, "施航程", 42, "0%"));
             add(new Student(7, "施航程", 16, "43.85%"));
         }};
-        OrderUtils.orderDesc(studentList, "promotionRate", (p) -> new BigDecimal(((String) p).substring(0, ((String) p).length() - 1)));
+
+
+        OrderConfig orderConfig = new OrderConfig();
+        orderConfig.setList(studentList);
+        orderConfig.setFieldName("promotionRate");
+        orderConfig.setMaxOneValue(new HashSet<Object>() {{
+            add("MAX");
+        }});
+        orderConfig.setMinOneValue(new HashSet<Object>() {{
+            add("--");
+        }});
+        orderConfig.setMapper((p) -> new BigDecimal(((String) p).substring(0, ((String) p).length() - 1)));
+        orderConfig.setOrderMode(1);
+
+        OrderUtils.order(orderConfig);
         System.out.println(studentList);
     }
 }
