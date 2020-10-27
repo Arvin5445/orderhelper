@@ -11,6 +11,7 @@ public class Student {
     private int id;
     private String name;
     private int age;
+    private String promotionRate;
 
     public Student(String name, int age) {
         this.name = name;
@@ -23,6 +24,13 @@ public class Student {
         this.age = age;
     }
 
+    public Student(int id, String name, int age, String promotionRate) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.promotionRate = promotionRate;
+    }
+
     public Student() {
     }
 
@@ -30,8 +38,9 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ", name='" + name + "'" +
+                ", name='" + name + '\'' +
                 ", age=" + age +
+                ", promotionRate='" + promotionRate + '\'' +
                 "}\n";
     }
 
@@ -59,4 +68,11 @@ public class Student {
         this.id = id;
     }
 
+    public String getPromotionRate() {
+        return promotionRate;
+    }
+
+    public void setPromotionRate(String promotionRate) {
+        this.promotionRate = promotionRate;
+    }
 }
