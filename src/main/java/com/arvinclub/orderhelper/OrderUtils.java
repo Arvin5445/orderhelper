@@ -7,9 +7,8 @@
  */
 package com.arvinclub.orderhelper;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -20,53 +19,71 @@ public class OrderUtils {
     /**
      * 升序排序
      *
-     * @param list  待排序集合
-     * @param param 排序依据的字段
+     * @param list      待排序集合
+     * @param fieldName 排序依据的字段
      */
-    public static void order(List list, String param) {
-        order(list, param, null);
+    public static void order(List list, String fieldName) {
+        OrderConfig orderConfig = new OrderConfig();
+        orderConfig.setList(list);
+        orderConfig.setFieldName(fieldName);
+        orderExcute(orderConfig);
     }
 
     /**
      * 降序排序
      *
-     * @param list  待排序集合
-     * @param param 排序依据的字段
+     * @param list      待排序集合
+     * @param fieldName 排序依据的字段
      */
-    public static void orderDesc(List list, String param) {
-        orderDesc(list, param, null);
+    public static void orderDesc(List list, String fieldName) {
+        OrderConfig orderConfig = new OrderConfig();
+        orderConfig.setList(list);
+        orderConfig.setFieldName(fieldName);
+        orderConfig.setOrderMode(1);
+        orderExcute(orderConfig);
     }
 
     /**
      * 升序排序
      *
-     * @param list   待排序集合
-     * @param param  排序依据的字段
-     * @param mapper 自定义映射器
+     * @param list      待排序集合
+     * @param fieldName 排序依据的字段
+     * @param mapper    自定义映射器
      */
-    public static void order(List list, String param, Function<Object, Comparable> mapper) {
-        if (list == null || list.size() < 2) {
-            return;
-        }
-        Orderhelper orderhelper = new Orderhelper(param, list.get(0).getClass());
-        orderhelper.setMapper(mapper);
-        list.sort(orderhelper);
+    public static void order(List list, String fieldName, Function<Object, Comparable> mapper) {
+        OrderConfig orderConfig = new OrderConfig();
+        orderConfig.setList(list);
+        orderConfig.setFieldName(fieldName);
+        orderConfig.setMapper(mapper);
+        orderExcute(orderConfig);
     }
 
     /**
      * 降序排序
      *
-     * @param list   待排序集合
-     * @param param  排序依据的字段
-     * @param mapper 自定义映射器
+     * @param list      待排序集合
+     * @param fieldName 排序依据的字段
+     * @param mapper    自定义映射器
      */
-    public static void orderDesc(List list, String param, Function<Object, Comparable> mapper) {
+    public static void orderDesc(List list, String fieldName, Function<Object, Comparable> mapper) {
+        OrderConfig orderConfig = new OrderConfig();
+        orderConfig.setList(list);
+        orderConfig.setFieldName(fieldName);
+        orderConfig.setMapper(mapper);
+        orderConfig.setOrderMode(1);
+        orderExcute(orderConfig);
+    }
+
+    public static void orderExcute(OrderConfig orderConfig) {
+        List list = orderConfig.getList();
         if (list == null || list.size() < 2) {
             return;
         }
-        Orderhelper orderhelper = new Orderhelper(param, list.get(0).getClass());
-        orderhelper.setMapper(mapper);
-        list.sort(orderhelper.reversed());
+        Comparator orderhelper = new OrderHelper(orderConfig);
+        if (orderConfig.getOrderMode() == 1) {
+            orderhelper = orderhelper.reversed();
+        }
+        list.sort(orderhelper);
     }
 
 }
