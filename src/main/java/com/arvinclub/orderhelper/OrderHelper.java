@@ -64,10 +64,10 @@ public class OrderHelper implements Comparator {
             throw new OrderException("获取类型: " + entityClass + " 中的字段: " + orderConfig.getFieldName() + " 失败");
         }
         // 特殊值判断：如果符合最大值或最小值，直接返回
-        if (orderConfig.getMaxOneValue() != null && orderConfig.getMaxOneValue().contains(fieldValue)) {
+        if (orderConfig.getMaxOnValues() != null && orderConfig.getMaxOnValues().contains(fieldValue)) {
             return MAX_VALUE;
         }
-        if (orderConfig.getMinOneValue() != null && orderConfig.getMinOneValue().contains(fieldValue)) {
+        if (orderConfig.getMinOnValues() != null && orderConfig.getMinOnValues().contains(fieldValue)) {
             return MIN_VALUE;
         }
         // 如果设置了字段映射器，则进行转换

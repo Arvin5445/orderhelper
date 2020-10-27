@@ -7,27 +7,48 @@
  */
 package com.arvinclub.orderhelper;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
 public class OrderConfig {
+
+    public static boolean ASC_MODE = false;
+    public static boolean DESC_MODE = true;
+    public static int MIN_ON_ERROR = 1;
+    public static int MAX_ON_ERROR = 2;
+
     // 要排序的集合
     private List list;
     // 要排序的字段名
     private String fieldName;
-    // 排序模式 0升序，1降序
-    private int orderMode;
+    // 排序模式 false升序，true降序
+    private boolean orderMode;
 
     // 最大值
-    private Set<Object> maxOneValue;
+    private Set<Object> maxOnValues;
     // 最小值
-    private Set<Object> minOneValue;
+    private Set<Object> minOnValues;
 
     // 字段映射器
     private Function<Object, Comparable> mapper;
     //映射出错时判断 0抛出异常，1最小，2最大
     private int mapErrorMode;
+
+    public void addMaxValue(Object maxOnValue) {
+        if (maxOnValues == null) {
+            maxOnValues = new HashSet<>();
+        }
+        maxOnValues.add(maxOnValue);
+    }
+
+    public void addMinValue(Object minOnValue) {
+        if (minOnValues == null) {
+            minOnValues = new HashSet<>();
+        }
+        minOnValues.add(minOnValue);
+    }
 
     public List getList() {
         return list;
@@ -45,20 +66,28 @@ public class OrderConfig {
         this.fieldName = fieldName;
     }
 
-    public Set<Object> getMaxOneValue() {
-        return maxOneValue;
+    public boolean getOrderMode() {
+        return orderMode;
     }
 
-    public void setMaxOneValue(Set<Object> maxOneValue) {
-        this.maxOneValue = maxOneValue;
+    public void setOrderMode(boolean orderMode) {
+        this.orderMode = orderMode;
     }
 
-    public Set<Object> getMinOneValue() {
-        return minOneValue;
+    public Set<Object> getMaxOnValues() {
+        return maxOnValues;
     }
 
-    public void setMinOneValue(Set<Object> minOneValue) {
-        this.minOneValue = minOneValue;
+    public void setMaxOnValues(Set<Object> maxOnValues) {
+        this.maxOnValues = maxOnValues;
+    }
+
+    public Set<Object> getMinOnValues() {
+        return minOnValues;
+    }
+
+    public void setMinOnValues(Set<Object> minOnValues) {
+        this.minOnValues = minOnValues;
     }
 
     public Function<Object, Comparable> getMapper() {
@@ -75,13 +104,5 @@ public class OrderConfig {
 
     public void setMapErrorMode(int mapErrorMode) {
         this.mapErrorMode = mapErrorMode;
-    }
-
-    public int getOrderMode() {
-        return orderMode;
-    }
-
-    public void setOrderMode(int orderMode) {
-        this.orderMode = orderMode;
     }
 }

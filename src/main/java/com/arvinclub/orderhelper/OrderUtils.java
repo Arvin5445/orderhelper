@@ -39,7 +39,7 @@ public class OrderUtils {
         OrderConfig orderConfig = new OrderConfig();
         orderConfig.setList(list);
         orderConfig.setFieldName(fieldName);
-        orderConfig.setOrderMode(1);
+        orderConfig.setOrderMode(true);
         order(orderConfig);
     }
 
@@ -49,7 +49,7 @@ public class OrderUtils {
             return;
         }
         Comparator orderhelper = new OrderHelper(orderConfig);
-        if (orderConfig.getOrderMode() == 1) {
+        if (orderConfig.getOrderMode()) {
             orderhelper = orderhelper.reversed();
         }
         list.sort(orderhelper);
@@ -82,7 +82,7 @@ public class OrderUtils {
         orderConfig.setList(list);
         orderConfig.setFieldName(fieldName);
         orderConfig.setMapper(mapper);
-        orderConfig.setOrderMode(1);
+        orderConfig.setOrderMode(true);
         order(orderConfig);
     }
 
