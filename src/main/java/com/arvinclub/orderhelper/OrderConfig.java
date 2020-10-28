@@ -7,9 +7,7 @@
  */
 package com.arvinclub.orderhelper;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -20,11 +18,8 @@ public class OrderConfig {
     public static int MIN_ON_ERROR = 1;
     public static int MAX_ON_ERROR = 2;
 
-    // 要排序的集合
-    private List list;
     // 要排序的字段名
     private String fieldName;
-    private List<String> fieldNames;
     // 排序模式 false升序，true降序
     private boolean orderMode;
 
@@ -52,22 +47,12 @@ public class OrderConfig {
         minOnValues.add(minOnValue);
     }
 
-    public List getList() {
-        return list;
-    }
-
-    public void setList(List list) {
-        this.list = list;
-    }
-
     public String getFieldName() {
         return fieldName;
     }
 
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
-        fieldNames = new ArrayList<>();
-        fieldNames.add(fieldName);
     }
 
     public boolean getOrderMode() {
@@ -110,11 +95,4 @@ public class OrderConfig {
         this.mapErrorMode = mapErrorMode;
     }
 
-    public List<String> getFieldNames() {
-        return fieldNames;
-    }
-
-    public void setFieldNames(List<String> fieldNames) {
-        this.fieldNames = fieldNames;
-    }
 }

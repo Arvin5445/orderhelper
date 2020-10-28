@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.arvinclub.orderhelper.OrderConfig.MAX_ON_ERROR;
+import static com.arvinclub.orderhelper.OrderConfig.MIN_ON_ERROR;
 
 public class Demo {
     public static void main(String[] args) {
@@ -52,12 +53,11 @@ public class Demo {
 
 
         OrderConfig id = new OrderConfig();
-        id.setList(studentList);
         id.setFieldName("id");
-        id.addMaxValue(-1);
+//        id.addMaxValue(-1);
         id.addMinValue("--");
         id.setOrderMode(OrderConfig.ASC_MODE);
-        id.setMapErrorMode(MAX_ON_ERROR);
+        id.setMapErrorMode(MIN_ON_ERROR);
 
 
         OrderConfig age = new OrderConfig();
@@ -67,15 +67,14 @@ public class Demo {
 
 
         OrderConfig promotionRate = new OrderConfig();
-        promotionRate.setList(studentList);
         promotionRate.setFieldName("promotionRate");
         promotionRate.setOrderMode(OrderConfig.DESC_MODE);
         promotionRate.addMaxValue("MAX");
         promotionRate.addMinValue("--");
-        promotionRate.setMapErrorMode(MAX_ON_ERROR);
+        promotionRate.setMapErrorMode(MIN_ON_ERROR);
         promotionRate.setMapper((p) -> new BigDecimal(((String) p).substring(0, ((String) p).length() - 1)));
 
-        OrderUtils.order(new ArrayList<OrderConfig>() {{
+        OrderUtils.order(studentList, new ArrayList<OrderConfig>() {{
             add(id);
             add(promotionRate);
             add(age);

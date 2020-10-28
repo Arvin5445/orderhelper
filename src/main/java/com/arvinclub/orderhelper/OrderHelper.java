@@ -22,21 +22,15 @@ public class OrderHelper implements Comparator {
     // 最小值
     private static final Comparable MIN_VALUE = o -> -1;
     // 配置信息
-    private List<OrderConfig> orderConfigs;
+    private final List<OrderConfig> orderConfigs;
     // 获取字段的 Get 方法
     private List<Method> fieldMethods;
-    // 元素类型
+    // 要排序的集合的元素类型
     private Class entityClass;
 
-    public OrderHelper(OrderConfig orderConfig) {
-        orderConfigs = new ArrayList<>();
-        orderConfigs.add(orderConfig);
-//        this.orderConfig = orderConfig;
-        preCheck();
-    }
-
-    public OrderHelper(List<OrderConfig> orderConfigs) {
+    OrderHelper(Class entityClass, List<OrderConfig> orderConfigs) {
         this.orderConfigs = orderConfigs;
+        this.entityClass = entityClass;
         preCheck();
     }
 
@@ -113,12 +107,11 @@ public class OrderHelper implements Comparator {
         if (orderConfigs == null || orderConfigs.isEmpty()) {
             throw new NullPointerException("orderConfig 未设置");
         }
-        entityClass = orderConfigs.get(0).getList().get(0).getClass();
         fieldMethods = new ArrayList<>();
         OrderConfig orderConfig = null;
         try {
-            for (int i = 0; i < orderConfigs.size(); i++) {
-                orderConfig = orderConfigs.get(i);
+            for (OrderConfig config : orderConfigs) {
+                orderConfig = config;
                 String fieldName = orderConfig.getFieldName();
                 fieldMethods.add(entityClass.getMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1)));
             }
