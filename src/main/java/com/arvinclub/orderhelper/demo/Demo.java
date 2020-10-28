@@ -13,6 +13,7 @@ import com.arvinclub.orderhelper.OrderUtils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static com.arvinclub.orderhelper.OrderConfig.MAX_ON_ERROR;
 import static com.arvinclub.orderhelper.OrderConfig.MIN_ON_ERROR;
@@ -80,5 +81,10 @@ public class Demo {
             add(age);
         }});
         System.out.println(studentList);
+        test(studentList, Student::getAge);
+    }
+
+    static <T> void test(List<T> list, Function<T, Comparable> function) {
+
     }
 }
