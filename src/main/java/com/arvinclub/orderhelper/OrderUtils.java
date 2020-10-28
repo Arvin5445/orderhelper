@@ -16,75 +16,72 @@ import java.util.function.Function;
  */
 public class OrderUtils {
 
-    /**
-     * 升序排序
-     *
-     * @param list      待排序集合
-     * @param fieldName 排序依据的字段
-     */
-    public static void order(List list, String fieldName) {
-        OrderConfig orderConfig = new OrderConfig();
-        orderConfig.setList(list);
-        orderConfig.setFieldName(fieldName);
-        order(orderConfig);
-    }
+//    /**
+//     * 升序排序
+//     *
+//     * @param list      待排序集合
+//     * @param fieldName 排序依据的字段
+//     */
+//    public static void order(List list, String fieldName) {
+//        OrderConfig orderConfig = new OrderConfig();
+//        orderConfig.setList(list);
+//        orderConfig.setFieldName(fieldName);
+//        order(orderConfig);
+//    }
+//
+//    /**
+//     * 降序排序
+//     *
+//     * @param list      待排序集合
+//     * @param fieldName 排序依据的字段
+//     */
+//    public static void orderDesc(List list, String fieldName) {
+//        OrderConfig orderConfig = new OrderConfig();
+//        orderConfig.setList(list);
+//        orderConfig.setFieldName(fieldName);
+//        orderConfig.setOrderMode(OrderConfig.DESC_MODE);
+//        order(orderConfig);
+//    }
 
-    /**
-     * 降序排序
-     *
-     * @param list      待排序集合
-     * @param fieldName 排序依据的字段
-     */
-    public static void orderDesc(List list, String fieldName) {
-        OrderConfig orderConfig = new OrderConfig();
-        orderConfig.setList(list);
-        orderConfig.setFieldName(fieldName);
-        orderConfig.setOrderMode(OrderConfig.DESC_MODE);
-        order(orderConfig);
-    }
-
-    public static void order(OrderConfig orderConfig) {
-        List list = orderConfig.getList();
+    public static void order(List<OrderConfig> orderConfigs) {
+        List list = orderConfigs.get(0).getList();
         if (list == null || list.size() < 2) {
             return;
         }
-        Comparator orderhelper = new OrderHelper(orderConfig);
-        if (orderConfig.getOrderMode()) {
-            orderhelper = orderhelper.reversed();
-        }
+        Comparator orderhelper = new OrderHelper(orderConfigs);
         list.sort(orderhelper);
     }
 
-    /**
-     * 升序排序
-     *
-     * @param list      待排序集合
-     * @param fieldName 排序依据的字段
-     * @param mapper    自定义映射器
-     */
-    public static void order(List list, String fieldName, Function<Object, Comparable> mapper) {
-        OrderConfig orderConfig = new OrderConfig();
-        orderConfig.setList(list);
-        orderConfig.setFieldName(fieldName);
-        orderConfig.setMapper(mapper);
-        order(orderConfig);
-    }
-
-    /**
-     * 降序排序
-     *
-     * @param list      待排序集合
-     * @param fieldName 排序依据的字段
-     * @param mapper    自定义映射器
-     */
-    public static void orderDesc(List list, String fieldName, Function<Object, Comparable> mapper) {
-        OrderConfig orderConfig = new OrderConfig();
-        orderConfig.setList(list);
-        orderConfig.setFieldName(fieldName);
-        orderConfig.setMapper(mapper);
-        orderConfig.setOrderMode(OrderConfig.DESC_MODE);
-        order(orderConfig);
-    }
+//    /**
+//     * 升序排序
+//     *
+//     * @param list      待排序集合
+//     * @param fieldName 排序依据的字段
+//     * @param mapper    自定义映射器
+//     */
+//    public static void order(List list, String fieldName, Function<Object, Comparable> mapper) {
+//        OrderConfig orderConfig = new OrderConfig();
+//        orderConfig.setList(list);
+//        orderConfig.setFieldName(fieldName);
+//        orderConfig.setMapper(mapper);
+//        order(orderConfig);
+//    }
+//
+//    /**
+//     * 降序排序
+//     *
+//     * @param list      待排序集合
+//     * @param fieldName 排序依据的字段
+//     * @param mapper    自定义映射器
+//     */
+//    public static void orderDesc(List list, String fieldName, Function<Object, Comparable> mapper) {
+//        OrderConfig orderConfig = new OrderConfig();
+//        orderConfig.setList(list);
+//        orderConfig.setFieldName(fieldName);
+//        orderConfig.setMapper(mapper);
+//        orderConfig.setOrderMode(OrderConfig.DESC_MODE);
+//        order(orderConfig);
+//    }
 
 
 }

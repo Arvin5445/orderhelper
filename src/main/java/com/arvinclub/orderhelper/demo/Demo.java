@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.arvinclub.orderhelper.OrderConfig.MAX_ON_ERROR;
+
 public class Demo {
     public static void main(String[] args) {
         List<Student> studentList = new ArrayList<Student>() {{
@@ -23,9 +25,23 @@ public class Demo {
             add(new Student(33, "施航程", 6, "--"));
             add(new Student(24, "施航程", 546, "68.57%"));
             add(new Student(24, "施航程", 546, "????"));
-            add(new Student(9999, "施航程", 56, "99.99%"));
+            add(new Student(9999, "施航程", 56, "MAX"));
+            add(new Student(9999, "施航程", 54, "lsd"));
+            add(new Student(9999, "施航程", 57, "99.98%"));
+            add(new Student(9999, "施航程", 7, "--"));
+            add(new Student(9999, "施航程", 356, "99.9%"));
+            add(new Student(995455599, "施航程", 345, "99.99%"));
+            add(new Student(3325436, "施航程", 3245, "99.9%"));
+            add(new Student(9999, "施航程", 3245, "99.99%"));
+            add(new Student(546546546, "施航程", 3245, "99.9%"));
+            add(new Student(9999, "施航程", 3245, "99.99%"));
+            add(new Student(9999, "施航程", 325, "99.9%"));
+            add(new Student(9999, "施航程", 2, "99.99%"));
+            add(new Student(9999, "施航程", 1, "99.99%"));
+            add(new Student(9999, "施航程", -1, "99.9%"));
             add(new Student(0, "施航程", 545, "77.77%"));
             add(new Student(0, "施航程", 545, "MAX"));
+            add(new Student(-1, "施航程", 545, "MAX"));
             add(new Student(75, "施航程", 9999, "57%"));
             add(new Student(75, "施航程", 9999, "-56%"));
             add(new Student(9527, "施航程", 0, "9999%"));
@@ -35,16 +51,35 @@ public class Demo {
         }};
 
 
-        OrderConfig orderConfig = new OrderConfig();
-        orderConfig.setList(studentList);
-        orderConfig.setFieldName("promotionRate");
-        orderConfig.addMaxValue("MAX");
-        orderConfig.addMinValue("--");
-        orderConfig.setMapper((p) -> new BigDecimal(((String) p).substring(0, ((String) p).length() - 1)));
-        orderConfig.setOrderMode(OrderConfig.DESC_MODE);
-        orderConfig.setMapErrorMode(OrderConfig.MAX_ON_ERROR);
+        OrderConfig id = new OrderConfig();
+        id.setList(studentList);
+        id.setFieldName("id");
+        id.addMaxValue(-1);
+        id.addMinValue("--");
+        id.setOrderMode(OrderConfig.ASC_MODE);
+        id.setMapErrorMode(MAX_ON_ERROR);
 
-        OrderUtils.order(orderConfig);
+
+        OrderConfig age = new OrderConfig();
+        age.setFieldName("age");
+        age.setOrderMode(OrderConfig.ASC_MODE);
+//        age.addMinValue(54);
+
+
+        OrderConfig promotionRate = new OrderConfig();
+        promotionRate.setList(studentList);
+        promotionRate.setFieldName("promotionRate");
+        promotionRate.setOrderMode(OrderConfig.DESC_MODE);
+        promotionRate.addMaxValue("MAX");
+        promotionRate.addMinValue("--");
+        promotionRate.setMapErrorMode(MAX_ON_ERROR);
+        promotionRate.setMapper((p) -> new BigDecimal(((String) p).substring(0, ((String) p).length() - 1)));
+
+        OrderUtils.order(new ArrayList<OrderConfig>() {{
+            add(id);
+            add(promotionRate);
+            add(age);
+        }});
         System.out.println(studentList);
     }
 }

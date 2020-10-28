@@ -8,7 +8,9 @@
 package com.arvinclub.orderhelper;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * 辅助比较器
@@ -20,14 +22,21 @@ public class OrderHelper implements Comparator {
     // 最小值
     private static final Comparable MIN_VALUE = o -> -1;
     // 配置信息
-    private final OrderConfig orderConfig;
+    private List<OrderConfig> orderConfigs;
+    // 获取字段的 Get 方法
+    private List<Method> fieldMethods;
     // 元素类型
     private Class entityClass;
-    // 获取字段的 Get 方法
-    private Method fieldMethod;
 
     public OrderHelper(OrderConfig orderConfig) {
-        this.orderConfig = orderConfig;
+        orderConfigs = new ArrayList<>();
+        orderConfigs.add(orderConfig);
+//        this.orderConfig = orderConfig;
+        preCheck();
+    }
+
+    public OrderHelper(List<OrderConfig> orderConfigs) {
+        this.orderConfigs = orderConfigs;
         preCheck();
     }
 
@@ -36,16 +45,24 @@ public class OrderHelper implements Comparator {
      */
     @Override
     public int compare(Object entity1, Object entity2) {
-        Comparable comparable1 = getFieldValue(entity1);
-        Comparable comparable2 = getFieldValue(entity2);
-        // 极值判断
-        if (comparable1 == MIN_VALUE || comparable2 == MAX_VALUE) {
-            return -1;
+        int result = 0;
+        // 如果字段值相等，比较下一层的字段
+        for (int depth = 0; result == 0 && depth < fieldMethods.size(); depth++) {
+            Comparable comparable1 = getFieldValue(entity1, depth);
+            Comparable comparable2 = getFieldValue(entity2, depth);
+            // 极值判断
+            boolean orderMode = orderConfigs.get(depth).getOrderMode();
+            if (comparable1 == MIN_VALUE || comparable2 == MAX_VALUE) {
+                return orderMode ? 1 : -1;
+            }
+            if (comparable1 == MAX_VALUE || comparable2 == MIN_VALUE) {
+                return orderMode ? -1 : 1;
+            }
+            result = comparable1.compareTo(comparable2);
+            // 升序降序判断
+            result = orderMode ? -result : result;
         }
-        if (comparable1 == MAX_VALUE || comparable2 == MIN_VALUE) {
-            return 1;
-        }
-        return comparable1.compareTo(comparable2);
+        return result;
     }
 
     /**
@@ -55,11 +72,12 @@ public class OrderHelper implements Comparator {
      * @param entity 元素
      * @return 用于比较的字段值
      */
-    public Comparable getFieldValue(Object entity) {
-        Object fieldValue = null;
+    public Comparable getFieldValue(Object entity, int depth) {
+        OrderConfig orderConfig = orderConfigs.get(depth);
+        Object fieldValue;
         try {
             // 反射获取元素的字段值
-            fieldValue = fieldMethod.invoke(entity);
+            fieldValue = fieldMethods.get(depth).invoke(entity);
         } catch (Exception e) {
             throw new OrderException("获取类型: " + entityClass + " 中的字段: " + orderConfig.getFieldName() + " 失败");
         }
@@ -92,11 +110,20 @@ public class OrderHelper implements Comparator {
      * 排序前的检查
      */
     private void preCheck() {
-        entityClass = orderConfig.getList().get(0).getClass();
+        if (orderConfigs == null || orderConfigs.isEmpty()) {
+            throw new NullPointerException("orderConfig 未设置");
+        }
+        entityClass = orderConfigs.get(0).getList().get(0).getClass();
+        fieldMethods = new ArrayList<>();
+        OrderConfig orderConfig = null;
         try {
-            fieldMethod = entityClass.getMethod("get" + orderConfig.getFieldName().substring(0, 1).toUpperCase() + orderConfig.getFieldName().substring(1));
+            for (int i = 0; i < orderConfigs.size(); i++) {
+                orderConfig = orderConfigs.get(i);
+                String fieldName = orderConfig.getFieldName();
+                fieldMethods.add(entityClass.getMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1)));
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new OrderException("获取类型: " + entityClass + " 中的字段: " + orderConfig.getFieldName() + " 失败");
         }
     }
 
