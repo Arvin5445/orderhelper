@@ -11,15 +11,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-public class OrderConfig {
+public class OrderConfig<T> {
 
     public static boolean ASC_MODE = false;
     public static boolean DESC_MODE = true;
     public static int MIN_ON_ERROR = 1;
     public static int MAX_ON_ERROR = 2;
 
-    // 要排序的字段名
-    private String fieldName;
     // 排序模式 false升序，true降序
     private boolean orderMode;
 
@@ -29,7 +27,7 @@ public class OrderConfig {
     private Set<Object> minOnValues;
 
     // 字段映射器
-    private Function<Object, Comparable> mapper;
+    private Function<T, Comparable> mapper;
     //映射出错时判断 0抛出异常，1最小，2最大
     private int mapErrorMode;
 
@@ -45,14 +43,6 @@ public class OrderConfig {
             minOnValues = new HashSet<>();
         }
         minOnValues.add(minOnValue);
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
     }
 
     public boolean getOrderMode() {
@@ -79,11 +69,11 @@ public class OrderConfig {
         this.minOnValues = minOnValues;
     }
 
-    public Function<Object, Comparable> getMapper() {
+    public Function<T, Comparable> getMapper() {
         return mapper;
     }
 
-    public void setMapper(Function<Object, Comparable> mapper) {
+    public void setMapper(Function<T, Comparable> mapper) {
         this.mapper = mapper;
     }
 
