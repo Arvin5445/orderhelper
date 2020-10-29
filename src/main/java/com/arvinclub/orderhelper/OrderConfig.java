@@ -20,15 +20,13 @@ public class OrderConfig<T> {
 
     // 排序模式 false升序，true降序
     private boolean orderMode;
-
     // 最大值
     private Set<Object> maxOnValues;
     // 最小值
     private Set<Object> minOnValues;
-
     // 字段映射器
     private Function<T, Comparable> mapper;
-    //映射出错时判断 0抛出异常，1最小，2最大
+    // 映射出错时判断 0抛出异常，1最小，2最大
     private int mapErrorMode;
 
     public void addMaxValue(Object maxOnValue) {

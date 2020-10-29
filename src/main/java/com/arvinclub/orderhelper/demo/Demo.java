@@ -44,20 +44,20 @@ public class Demo {
             add(new Student(9999, "施航程", 356, "99.9%"));
             add(new Student(9999, "施航程", 1, "99.99%"));
             add(new Student(9999, "施航程", -1, "99.9%"));
-            add(new Student(9527, "施航程", 0, "9999%"));
+            add(new Student(9527, "施航程", 4, "9999%"));
             add(new Student(0, "施航程", 545, "77.77%"));
             add(new Student(0, "施航程", 545, "MAX"));
             add(new Student(9527, "施航程", 0, "9999%"));
             add(new Student(-1, "施航程", 545, "MAX"));
             add(new Student(9999, "施航程", 1, "99.99%"));
-            add(new Student(9527, "施航程", 0, "9999%"));
+            add(new Student(9527, "施航程", -9, "9999%"));
             add(new Student(75, "施航程", 9999, "57%"));
             add(new Student(75, "施航程", 9999, "57%"));
             add(new Student(75, "施航程", 9999, "-56%"));
             add(new Student(9527, "施航程", 0, "9999%"));
             add(new Student(4396, "施航程", 545, "100%"));
             add(new Student(8, "施航程", 42, "0%"));
-            add(new Student(9527, "施航程", 0, "9999%"));
+            add(new Student(9527, "施航程", 2, "9999%"));
             add(new Student(7, "施航程", 16, "43.85%"));
             add(new Student(9527, "施航程", 0, "9999%"));
         }};
@@ -65,8 +65,9 @@ public class Demo {
 
         OrderConfig<Student> id = new OrderConfig<>();
         id.setMapper(Student::getId);
-//        id.addMaxValue(-1);
-        id.addMinValue("--");
+        id.addMaxValue(-1);
+        id.addMaxValue(0);
+        id.addMinValue(546546546);
         id.setOrderMode(OrderConfig.ASC_MODE);
         id.setMapErrorMode(MIN_ON_ERROR);
 
@@ -84,15 +85,16 @@ public class Demo {
         promotionRate.setMapErrorMode(MIN_ON_ERROR);
         promotionRate.setMapper((p) -> new BigDecimal(p.getPromotionRate().substring(0, p.getPromotionRate().length() - 1)));
 
-        OrderUtils.order(studentList, new ArrayList<OrderConfig<Student>>() {{
-            add(id);
-            add(promotionRate);
-            add(age);
-        }});
+//        OrderUtils.order(studentList, new ArrayList<OrderConfig<Student>>() {{
+//            add(id);
+//            add(promotionRate);
+//            add(age);
+//        }});
+        OrderUtils.order(studentList, id);
         System.out.println(studentList);
 
 
-//        OrderUtils.order(studentList, Student::getAge);
+        OrderUtils.order(studentList, Student::getAge);
 //        System.out.println(studentList);
     }
 

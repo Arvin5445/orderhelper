@@ -24,8 +24,10 @@ public class OrderHelper<T> implements Comparator<T> {
     // 要排序的集合的元素类型
 
     OrderHelper(List<OrderConfig<T>> orderConfigs) {
+        if (orderConfigs == null || orderConfigs.isEmpty()) {
+            throw new NullPointerException("orderConfig 未设置");
+        }
         this.orderConfigs = orderConfigs;
-        preCheck();
     }
 
     /**
@@ -43,10 +45,10 @@ public class OrderHelper<T> implements Comparator<T> {
             Comparable comparable2 = getFieldValue(entity2, depth);
             // 极值判断
             boolean orderMode = orderConfigs.get(depth).getOrderMode();
-            if (comparable1 == MIN_VALUE || comparable2 == MAX_VALUE) {
+            if (comparable2 == MAX_VALUE) {
                 return orderMode ? 1 : -1;
             }
-            if (comparable1 == MAX_VALUE || comparable2 == MIN_VALUE) {
+            if (comparable2 == MIN_VALUE) {
                 return orderMode ? -1 : 1;
             }
             result = comparable1.compareTo(comparable2);
@@ -86,15 +88,6 @@ public class OrderHelper<T> implements Comparator<T> {
             return MIN_VALUE;
         }
         return fieldValue;
-    }
-
-    /**
-     * 排序前的检查
-     */
-    private void preCheck() {
-        if (orderConfigs == null || orderConfigs.isEmpty()) {
-            throw new NullPointerException("orderConfig 未设置");
-        }
     }
 
 }
