@@ -67,7 +67,7 @@ public class OrderHelper<T> implements Comparator<T> {
      */
     public Comparable<?> getFieldValue(T entity, int depth) {
         OrderConfig<T> orderConfig = orderConfigs.get(depth);
-        Comparable<?> fieldValue = null;
+        Comparable<?> fieldValue;
         try {
             // 获取元素的字段值
             fieldValue = orderConfig.getMapper().apply(entity);

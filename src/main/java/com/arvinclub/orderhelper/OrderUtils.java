@@ -16,6 +16,7 @@ import java.util.function.Function;
  */
 public class OrderUtils {
 
+    @SafeVarargs
     public static <T> void order(List<T> list, Function<T, Comparable<?>>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
         for (Function<T, Comparable<?>> mapper : mappers) {
@@ -26,6 +27,7 @@ public class OrderUtils {
         order(list, orderConfigs);
     }
 
+    @SafeVarargs
     public static <T> void orderDesc(List<T> list, Function<T, Comparable<?>>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
         for (Function<T, Comparable<?>> mapper : mappers) {
