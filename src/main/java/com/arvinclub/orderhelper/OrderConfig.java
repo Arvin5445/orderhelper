@@ -13,10 +13,10 @@ import java.util.function.Function;
 
 public class OrderConfig<T> {
 
-    public static boolean ASC_MODE = false;
-    public static boolean DESC_MODE = true;
-    public static int MIN_ON_ERROR = 1;
-    public static int MAX_ON_ERROR = 2;
+    public static final boolean ASC_MODE = false;
+    public static final boolean DESC_MODE = true;
+    public static final int MIN_ON_ERROR = 1;
+    public static final int MAX_ON_ERROR = 2;
 
     // 排序模式 false升序，true降序
     private boolean orderMode;
