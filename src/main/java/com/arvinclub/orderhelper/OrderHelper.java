@@ -46,6 +46,9 @@ public class OrderHelper<T> implements Comparator<T> {
         for (int depth = 0; result == 0 && depth < orderConfigs.size(); depth++) {
             Comparable comparable1 = getFieldValue(entity1, depth);
             Comparable<?> comparable2 = getFieldValue(entity2, depth);
+            if (Objects.equals(comparable1, comparable2)) {
+                continue;
+            }
             // 极值判断
             boolean orderMode = orderConfigs.get(depth).getOrderMode();
             if (comparable2 == MAX_VALUE) {
