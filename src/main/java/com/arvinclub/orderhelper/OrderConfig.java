@@ -25,7 +25,7 @@ public class OrderConfig<T> {
     // 最小值
     private Set<Object> minOnValues;
     // 字段映射器
-    private Function<T, Comparable> mapper;
+    private Function<T, Comparable<?>> mapper;
     // 映射出错时判断 0抛出异常，1最小，2最大
     private int mapErrorMode;
 
@@ -67,11 +67,11 @@ public class OrderConfig<T> {
         this.minOnValues = minOnValues;
     }
 
-    public Function<T, Comparable> getMapper() {
+    public Function<T, Comparable<?>> getMapper() {
         return mapper;
     }
 
-    public void setMapper(Function<T, Comparable> mapper) {
+    public void setMapper(Function<T, Comparable<?>> mapper) {
         this.mapper = mapper;
     }
 

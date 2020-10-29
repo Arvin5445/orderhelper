@@ -42,7 +42,7 @@ public class OrderHelper<T> implements Comparator<T> {
                 continue;
             }
             Comparable comparable1 = getFieldValue(entity1, depth);
-            Comparable comparable2 = getFieldValue(entity2, depth);
+            Comparable<?> comparable2 = getFieldValue(entity2, depth);
             // 极值判断
             boolean orderMode = orderConfigs.get(depth).getOrderMode();
             if (comparable2 == MAX_VALUE) {
@@ -65,7 +65,7 @@ public class OrderHelper<T> implements Comparator<T> {
      * @param entity 元素
      * @return 用于比较的字段值
      */
-    public Comparable getFieldValue(T entity, int depth) {
+    public Comparable<?> getFieldValue(T entity, int depth) {
         OrderConfig<T> orderConfig = orderConfigs.get(depth);
         Comparable<?> fieldValue = null;
         try {

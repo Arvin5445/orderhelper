@@ -16,9 +16,9 @@ import java.util.function.Function;
  */
 public class OrderUtils {
 
-    public static <T> void order(List<T> list, Function<T, Comparable>... mappers) {
+    public static <T> void order(List<T> list, Function<T, Comparable<?>>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
-        for (Function<T, Comparable> mapper : mappers) {
+        for (Function<T, Comparable<?>> mapper : mappers) {
             OrderConfig<T> orderConfig = new OrderConfig<T>();
             orderConfig.setMapper(mapper);
             orderConfigs.add(orderConfig);
@@ -26,9 +26,9 @@ public class OrderUtils {
         order(list, orderConfigs);
     }
 
-    public static <T> void orderDesc(List<T> list, Function<T, Comparable>... mappers) {
+    public static <T> void orderDesc(List<T> list, Function<T, Comparable<?>>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
-        for (Function<T, Comparable> mapper : mappers) {
+        for (Function<T, Comparable<?>> mapper : mappers) {
             OrderConfig<T> orderConfig = new OrderConfig<T>();
             orderConfig.setMapper(mapper);
             orderConfig.setOrderMode(OrderConfig.DESC_MODE);
