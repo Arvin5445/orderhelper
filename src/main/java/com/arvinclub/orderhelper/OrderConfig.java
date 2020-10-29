@@ -16,7 +16,9 @@ public class OrderConfig<T> {
     public static final boolean ASC_MODE = false;
     public static final boolean DESC_MODE = true;
     public static final int MIN_ON_ERROR = 1;
+    public static final int MIN_ON_NULL = 1;
     public static final int MAX_ON_ERROR = 2;
+    public static final int MAX_ON_NULL = 2;
 
     // 排序模式 false升序，true降序
     private boolean orderMode;
@@ -24,10 +26,12 @@ public class OrderConfig<T> {
     private Set<Object> maxOnValues;
     // 最小值
     private Set<Object> minOnValues;
-    // 字段映射器
+    // 通过实体获取字段值的映射器
     private Function<T, Comparable<?>> mapper;
     // 映射出错时判断 0抛出异常，1最小，2最大
     private int mapErrorMode;
+    // 实体为null时判断 0抛出异常，1最小，2最大
+    private int nullMode;
 
     public void addMaxValue(Object maxOnValue) {
         if (maxOnValues == null) {
@@ -83,4 +87,11 @@ public class OrderConfig<T> {
         this.mapErrorMode = mapErrorMode;
     }
 
+    public int getNullMode() {
+        return nullMode;
+    }
+
+    public void setNullMode(int nullMode) {
+        this.nullMode = nullMode;
+    }
 }

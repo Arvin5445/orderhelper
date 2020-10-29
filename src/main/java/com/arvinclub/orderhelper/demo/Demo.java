@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.arvinclub.orderhelper.OrderConfig.MIN_ON_ERROR;
+import static com.arvinclub.orderhelper.OrderConfig.MIN_ON_NULL;
 
 public class Demo {
     public static void main(String[] args) {
@@ -27,6 +28,7 @@ public class Demo {
             add(new Student(24, "施航程", 546, "????"));
             add(new Student(9999, "施航程", 56, "MAX"));
             add(new Student(34, "施航程", 12, "56.54%"));
+            add(null);
             add(new Student(546546546, "施航程", 3245, "99.9%"));
             add(new Student(9999, "施航程", 54, "lsd"));
             add(new Student(9999, "施航程", 57, "99.98%"));
@@ -65,11 +67,12 @@ public class Demo {
 
         OrderConfig<Student> id = new OrderConfig<>();
         id.setMapper(Student::getId);
-        id.addMaxValue(-1);
-        id.addMaxValue(0);
-        id.addMinValue(546546546);
+//        id.addMaxValue(-1);
+//        id.addMaxValue(0);
+//        id.addMinValue(546546546);
         id.setOrderMode(OrderConfig.ASC_MODE);
         id.setMapErrorMode(MIN_ON_ERROR);
+        id.setNullMode(MIN_ON_NULL);
 
 
         OrderConfig<Student> age = new OrderConfig<>();
@@ -94,7 +97,7 @@ public class Demo {
         System.out.println(studentList);
 
 
-        OrderUtils.order(studentList, Student::getAge);
+        //OrderUtils.order(studentList, Student::getAge);
 //        System.out.println(studentList);
     }
 

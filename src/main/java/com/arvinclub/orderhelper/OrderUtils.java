@@ -16,6 +16,13 @@ import java.util.function.Function;
  */
 public class OrderUtils {
 
+    /**
+     * 升序排序
+     *
+     * @param list    待排序集合
+     * @param mappers 通过实体获取字段值的映射器
+     * @param <T>     实体类型
+     */
     @SafeVarargs
     public static <T> void order(List<T> list, Function<T, Comparable<?>>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
@@ -27,6 +34,13 @@ public class OrderUtils {
         order(list, orderConfigs);
     }
 
+    /**
+     * 降序排序
+     *
+     * @param list    待排序集合
+     * @param mappers 通过实体获取字段值的映射器
+     * @param <T>     实体类型
+     */
     @SafeVarargs
     public static <T> void orderDesc(List<T> list, Function<T, Comparable<?>>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
