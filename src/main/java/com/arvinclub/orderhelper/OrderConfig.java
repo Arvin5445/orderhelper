@@ -15,10 +15,9 @@ public class OrderConfig<T> {
 
     public static final boolean ASC_MODE = false;
     public static final boolean DESC_MODE = true;
-    public static final int MIN_ON_ERROR = 1;
-    public static final int MIN_ON_NULL = 1;
-    public static final int MAX_ON_ERROR = 2;
-    public static final int MAX_ON_NULL = 2;
+    public static final int ERROR_MODE = 0;
+    public static final int MIN_MODE = 1;
+    public static final int MAX_MODE = 2;
 
     // 排序模式 false升序，true降序
     private boolean orderMode;
