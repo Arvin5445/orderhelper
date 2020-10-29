@@ -13,6 +13,7 @@ import com.arvinclub.orderhelper.OrderUtils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static com.arvinclub.orderhelper.OrderConfig.*;
 
@@ -71,7 +72,7 @@ public class Demo {
 //        id.addMinValue(546546546);
         id.setOrderMode(OrderConfig.ASC_MODE);
         id.setMapErrorMode(MIN_MODE);
-        id.setNullMode(MIN_MODE);
+        id.setNullEntityMode(MAX_MODE);
 
 
         OrderConfig<Student> age = new OrderConfig<>();
@@ -85,7 +86,8 @@ public class Demo {
         promotionRate.addMaxValue("MAX");
         promotionRate.addMinValue("--");
         promotionRate.setMapErrorMode(MIN_MODE);
-        promotionRate.setMapper((p) -> new BigDecimal(p.getPromotionRate().substring(0, p.getPromotionRate().length() - 1)));
+        Function<Student, Comparable<?>> mapper = (p) -> new BigDecimal(p.getPromotionRate().substring(0, p.getPromotionRate().length() - 1));
+        promotionRate.setMapper(mapper);
 
 //        OrderUtils.order(studentList, new ArrayList<OrderConfig<Student>>() {{
 //            add(id);

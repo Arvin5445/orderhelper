@@ -59,14 +59,21 @@ public class OrderUtils {
         }});
     }
 
+    /**
+     * 实际调用此方法
+     */
     public static <T> void order(List<T> list, List<OrderConfig<T>> orderConfigs) {
         if (list == null || list.size() < 2) {
             return;
         }
         OrderHelper<T> orderhelper = new OrderHelper<>(orderConfigs);
+        // 真正开始排序
         list.sort(orderhelper);
     }
 
+    /**
+     * 抛出异常
+     */
     public static <T> void order(List<T> list) {
         throw new OrderException("未设置 function");
     }

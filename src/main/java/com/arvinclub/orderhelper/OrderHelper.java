@@ -15,14 +15,14 @@ import java.util.Objects;
  * 辅助比较器
  */
 public class OrderHelper<T> implements Comparator<T> {
-
+    
     // 最大值
     private static final Comparable<?> MAX_VALUE = o -> 1;
     // 最小值
     private static final Comparable<?> MIN_VALUE = o -> -1;
     // 配置信息
     private final List<OrderConfig<T>> orderConfigs;
-
+    
     /**
      * 检查配置信息
      */
@@ -32,7 +32,7 @@ public class OrderHelper<T> implements Comparator<T> {
         }
         this.orderConfigs = orderConfigs;
     }
-
+    
     /**
      * 通过比较指定字段来比较两个实体
      */
@@ -60,28 +60,29 @@ public class OrderHelper<T> implements Comparator<T> {
         }
         return result;
     }
-
+    
     /**
      * 通过 mapper 获取实体的字段值（用于比较）
      * 并进行极值处理、异常处理
      */
     public Comparable<?> getFieldValue(T entity, int depth) {
         OrderConfig<T> orderConfig = orderConfigs.get(depth);
-        // null值判断
+        // 实体为 null 判断
         if (entity == null) {
-            if (orderConfig.getNullMode() == 1) {
+            if (orderConfig.getNullEntityMode() == 1) {
                 return MIN_VALUE;
             }
-            if (orderConfig.getNullMode() == 2) {
+            if (orderConfig.getNullEntityMode() == 2) {
                 return MAX_VALUE;
             }
-            throw new NullPointerException("在获取比较值时实体为 null");
+            throw new NullPointerException("在获取比较字段值时实体为 null");
         }
         Comparable<?> fieldValue;
         try {
             // 获取元素的字段值
             fieldValue = orderConfig.getMapper().apply(entity);
         } catch (Exception e) {
+            // 异常判断
             if (orderConfig.getMapErrorMode() == 1) {
                 return MIN_VALUE;
             }
@@ -97,7 +98,17 @@ public class OrderHelper<T> implements Comparator<T> {
         if (orderConfig.getMinOnValues() != null && orderConfig.getMinOnValues().contains(fieldValue)) {
             return MIN_VALUE;
         }
-        return fieldValue;
+        // 字段值为 null 判断
+        if (fieldValue != null) {
+            return fieldValue;
+        }
+        if (orderConfig.getNullFieldMode() == 1) {
+            return MIN_VALUE;
+        }
+        if (orderConfig.getNullFieldMode() == 2) {
+            return MAX_VALUE;
+        }
+        throw new NullPointerException("比较字段值为 null");
     }
-
+    
 }

@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class OrderConfig<T> {
-
     public static final boolean ASC_MODE = false;
     public static final boolean DESC_MODE = true;
     public static final int ERROR_MODE = 0;
@@ -29,8 +28,10 @@ public class OrderConfig<T> {
     private Function<T, Comparable<?>> mapper;
     // 映射出错时判断 0抛出异常，1最小，2最大
     private int mapErrorMode;
+    // 字段值为null时判断 0抛出异常，1最小，2最大
+    private int nullFieldMode;
     // 实体为null时判断 0抛出异常，1最小，2最大
-    private int nullMode;
+    private int nullEntityMode;
 
     public void addMaxValue(Object maxOnValue) {
         if (maxOnValues == null) {
@@ -85,12 +86,20 @@ public class OrderConfig<T> {
     public void setMapErrorMode(int mapErrorMode) {
         this.mapErrorMode = mapErrorMode;
     }
-
-    public int getNullMode() {
-        return nullMode;
+    
+    public int getNullFieldMode() {
+        return nullFieldMode;
     }
-
-    public void setNullMode(int nullMode) {
-        this.nullMode = nullMode;
+    
+    public void setNullFieldMode(int nullFieldMode) {
+        this.nullFieldMode = nullFieldMode;
+    }
+    
+    public int getNullEntityMode() {
+        return nullEntityMode;
+    }
+    
+    public void setNullEntityMode(int nullEntityMode) {
+        this.nullEntityMode = nullEntityMode;
     }
 }
