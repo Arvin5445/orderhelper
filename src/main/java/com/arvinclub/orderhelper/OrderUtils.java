@@ -16,21 +16,21 @@ import java.util.function.Function;
  */
 public class OrderUtils {
 
-    public static <T> void order(List<T> list, Function<T, Comparable>... function) {
+    public static <T> void order(List<T> list, Function<T, Comparable>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
-        for (Function<T, Comparable> f : function) {
+        for (Function<T, Comparable> mapper : mappers) {
             OrderConfig<T> orderConfig = new OrderConfig<T>();
-            orderConfig.setMapper(f);
+            orderConfig.setMapper(mapper);
             orderConfigs.add(orderConfig);
         }
         order(list, orderConfigs);
     }
 
-    public static <T> void orderDesc(List<T> list, Function<T, Comparable>... function) {
+    public static <T> void orderDesc(List<T> list, Function<T, Comparable>... mappers) {
         List<OrderConfig<T>> orderConfigs = new ArrayList<>();
-        for (Function<T, Comparable> f : function) {
+        for (Function<T, Comparable> mapper : mappers) {
             OrderConfig<T> orderConfig = new OrderConfig<T>();
-            orderConfig.setMapper(f);
+            orderConfig.setMapper(mapper);
             orderConfig.setOrderMode(OrderConfig.DESC_MODE);
             orderConfigs.add(orderConfig);
         }
