@@ -1,10 +1,3 @@
-/*
- * Copyright (C), 2020, 顺丰科技
- * FileName: Demo
- * Author: 01397386
- * Date: 2020/10/27 11:10
- * Description:
- */
 package com.arvinclub.orderhelper.demo;
 
 import com.arvinclub.orderhelper.OrderConfig;

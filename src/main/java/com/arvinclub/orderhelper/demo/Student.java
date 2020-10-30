@@ -1,10 +1,3 @@
-/*
- * Copyright (C), 2020, 顺丰科技
- * FileName: Student
- * Author: 01397386
- * Date: 2020/10/26 11:15
- * Description:
- */
 package com.arvinclub.orderhelper.demo;
 
 import java.math.BigDecimal;

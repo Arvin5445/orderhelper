@@ -1,10 +1,3 @@
-/*
- * Copyright (C), 2020, 顺丰科技
- * FileName: Orderhelper
- * Author: 01397386
- * Date: 2020/10/27 10:52
- * Description:
- */
 package com.arvinclub.orderhelper;
 
 import java.util.Comparator;
